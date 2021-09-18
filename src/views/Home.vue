@@ -88,7 +88,6 @@ export default {
         })
 
         this.finalResult[`${status}`] = finalResult
-        console.log('status->', status)
         this.loading = false
       })
     }
