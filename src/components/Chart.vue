@@ -1,6 +1,6 @@
 <template>
   <div v-if="torqueData.length !== 0" class="hello">
-    <zingchart :data="chartDataList"></zingchart>
+    <zingchart :data="opanChartData"></zingchart>
   </div>
 </template>
 
@@ -21,30 +21,8 @@ export default {
       }
     }
   },
-  data() {
-    return {
-      chartData: {
-        type: 'bar',
-        series: [{
-          values: [35, 42, 67, 89, 25, 34, 67, 85],
-          lineColor: '#e53935',
-          marker: {
-            backgroundColor: '#e53935'
-          },
-          scales: 'scale-x, scale-y'
-        }, {
-          values: [35, 42, 67, 89, 25, 34, 67, 85],
-          lineColor: '#e53935',
-          marker: {
-            backgroundColor: '#e53935'
-          },
-          scales: 'scale-x, scale-y'
-        }]
-      }
-    }
-  },
   computed: {
-    chartDataList : (props) => {
+    opanChartData : (props) => {
       return {
         type: 'bar',
         series: props.torqueData

@@ -4,7 +4,15 @@
       Loading...
     </div>
     <div v-else>
-      <chart :torque-data="finalResult" />
+      <div>
+        Close
+      </div>
+      <chart :torque-data="finalResult.Close" />
+      <br>
+      <div>
+        Open
+      </div>
+      <chart :torque-data="finalResult.Open" />
     </div>
   </div>
 </template>
@@ -20,19 +28,22 @@ export default {
     return {
       torqueData: [],
       loading: false,
-      finalResult: []
+      finalResult: {
+        Open: [],
+        Close: []
+      }
     }
   },
   async mounted() {
-    await this.getTorqueData()
+    await this.getTorqueData("Close")
+    await this.getTorqueData("Open")
   },
   methods: {
-    async getTorqueData () {
+    async getTorqueData (status = "") {
       this.loading = true
       this.$store.dispatch('getTorque').then(response => {
-        this.torqueData = response.data.sort((a, b) => { return a.Position - b.Position })
+        this.torqueData = response.data.sort((a, b) => { return a.Position - b.Position }).filter(item => item.Direction === status)
         const positions = this.torqueData.map(item => item.Position).filter((value, index, self) => self.indexOf(value) === index)
-
         const result = []
         const resultLastTorque = []
         positions.forEach(index => {
@@ -76,7 +87,8 @@ export default {
           )
         })
 
-        this.finalResult = finalResult
+        this.finalResult[`${status}`] = finalResult
+        console.log('status->', status)
         this.loading = false
       })
     }
